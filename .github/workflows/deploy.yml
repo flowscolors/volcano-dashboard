@@ -5,11 +5,13 @@ on:
     branches: [master]
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -23,15 +25,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+        with:
+          fetch-depth: 0  # Fetch all history for .Branch and .Tag
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+        with:
+          static_site: true  # Use static site mode for HTML files
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
-          
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
